@@ -49,3 +49,5 @@ Route::get('/kontak', function () {
 Route::get('/lokasi', function () {
     return view('contact');
 })->name('lokasi');
+
+Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
