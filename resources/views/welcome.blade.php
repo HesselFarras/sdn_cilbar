@@ -298,9 +298,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @php
                 $pengumumans = [
-                    ['tanggal'=>'20 Des 2023','judul'=>'Libur Semester Ganjil','deskripsi'=>'Informasi mengenai jadwal libur akhir semester ganjil dan pembagian rapot siswa.','kategori'=>'Akademik','kategori_color'=>'bg-yellow-100 text-yellow-700','icon'=>'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-                    ['tanggal'=>'15 Jan 2024','judul'=>'Pentas Seni Tahunan','deskripsi'=>'Persiapkan penampilan terbaikmu untuk ajang kreativitas siswa bulan depan!','kategori'=>'Kegiatan','kategori_color'=>'bg-[#e0f6fa] text-[#1A8DA3]','icon'=>'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3'],
-                    ['tanggal'=>'05 Feb 2024','judul'=>'Penerimaan Siswa Baru','deskripsi'=>'PPDB Tahun Ajaran 2024/2025 akan segera dibuka. Siapkan berkas pendaftaran Anda.','kategori'=>'PPDB','kategori_color'=>'bg-green-100 text-green-700','icon'=>'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'],
+                    ['tanggal'=>'20 Des 2025','judul'=>'Libur Semester Ganjil','deskripsi'=>'Informasi mengenai jadwal libur akhir semester ganjil dan pembagian rapot siswa.','kategori'=>'Akademik','kategori_color'=>'bg-yellow-100 text-yellow-700','icon'=>'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+                    ['tanggal'=>'15 Jan 2026','judul'=>'Pentas Seni Tahunan','deskripsi'=>'Persiapkan penampilan terbaikmu untuk ajang kreativitas siswa bulan depan!','kategori'=>'Kegiatan','kategori_color'=>'bg-[#e0f6fa] text-[#1A8DA3]','icon'=>'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3'],
+                    ['tanggal'=>'05 Feb 2026','judul'=>'Penerimaan Siswa Baru','deskripsi'=>'PPDB Tahun Ajaran 2026/2027 akan segera dibuka. Siapkan berkas pendaftaran Anda.','kategori'=>'PPDB','kategori_color'=>'bg-green-100 text-green-700','icon'=>'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'],
                 ];
                 @endphp
 
