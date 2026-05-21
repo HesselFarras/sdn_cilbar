@@ -50,4 +50,7 @@ Route::get('/lokasi', function () {
     return view('contact');
 })->name('lokasi');
 
-Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
+use App\Http\Controllers\PengumumanController;
+
+Route::get('/pengumuman',         [PengumumanController::class, 'index'])->name('pengumuman.index');
+Route::get('/pengumuman/{slug}',  [PengumumanController::class, 'show']) ->name('pengumuman.show');
