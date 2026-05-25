@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
 
 Route::get('/tentang', function () {
     return view('about');
@@ -73,3 +70,29 @@ use App\Http\Controllers\PengumumanController;
 
 Route::get('/pengumuman',         [PengumumanController::class, 'index'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}',  [PengumumanController::class, 'show']) ->name('pengumuman.show');
+
+#Rutes Artikel===================================================================================================
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\HomeController;
+
+// Home — pastikan HomeController::index() memanggil ArtikelController::dataForHome()
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Artikel per kategori (ekstrakurikuler / prestasi / dokumentasi)
+Route::get('/artikel/{kategori}',       [ArtikelController::class, 'kategori'])->name('artikel.kategori');
+Route::get('/artikel/{kategori}/{slug}',[ArtikelController::class, 'show'])    ->name('artikel.show');
+
+
+// ============================================================
+// HomeController.php — pastikan data artikel dikirim ke view
+// ============================================================
+//
+// public function index()
+// {
+//     $data = \App\Controllers\ArtikelController::dataForHome();
+//
+//     // merge dengan data lain yang sudah ada (pengumuman, dsb)
+//     return view('home', array_merge($data, [
+//         // ... data lainnya
+//     ]));
+// }
