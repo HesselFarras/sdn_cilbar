@@ -13,12 +13,18 @@ Route::get('/akademik', function () {
 })->name('akademik');
 
 Route::get('/akademik/kurikulum', function () {
-    return view('academic');
+    return view('kurikulum');
 })->name('akademik.kurikulum');
 
-Route::get('/akademik/kalender', function () {
-    return view('academic');
-})->name('akademik.kalender');
+use App\Http\Controllers\KalenderAkademikController;
+
+// Ganti baris ini (line 19–21 di web.php kamu):
+Route::get('/akademik/kalender', [KalenderAkademikController::class, 'index'])
+    ->name('akademik.kalender');
+
+// Tambah route download:
+Route::get('/akademik/kalender/download/{id}', [KalenderAkademikController::class, 'download'])
+    ->name('academic-calendar.download');
 
 Route::get('/akademik/tenaga-pendidik', function () {
     return view('academic');
@@ -96,3 +102,7 @@ Route::get('/artikel/{kategori}/{slug}',[ArtikelController::class, 'show'])    -
 //         // ... data lainnya
 //     ]));
 // }
+use App\Http\Controllers\DocumentController;
+
+Route::get('/dokumen/download/{id}', [DocumentController::class, 'download'])
+    ->name('documents.download');
