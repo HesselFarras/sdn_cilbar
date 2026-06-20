@@ -4,11 +4,11 @@
     <div class="max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6">
         <div>
             <h2 class="text-lg font-bold text-gray-900 font-headline">Formulir Tambah Fasilitas</h2>
-            <p class="text-gray-500 text-xs mt-0.5">Aset gambar akan otomatis disimpan di folder penyimpanan publik website.</p>
+            <p class="text-gray-500 text-xs mt-0.5">Aset gambar menggunakan tautan internet (URL) publik website.</p>
         </div>
 
-        {{-- Note: Wajib pake enctype="multipart/form-data" biar bisa upload gambar --}}
-        <form action="{{ route('admin.fasilitas.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5 text-xs">
+        {{-- Note: enctype dihapus karena sekarang murni kirim teks URL gambar biasa --}}
+        <form action="{{ route('admin.fasilitas.store') }}" method="POST" class="space-y-5 text-xs">
             @csrf
 
             <div class="space-y-1.5">
@@ -21,10 +21,11 @@
                 <textarea name="deskripsi" required rows="4" placeholder="Jelaskan spesifikasi ruang atau keunggulan fasilitas..." class="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#1A8DA3]"></textarea>
             </div>
 
+            {{-- FIX: Mengubah input file menjadi input url teks biasa --}}
             <div class="space-y-1.5">
-                <label class="font-bold text-gray-700 uppercase tracking-wide">Foto Dokumentasi (Opsional)</label>
-                <input type="file" name="foto" class="w-full p-2 rounded-xl border border-gray-200 bg-gray-50">
-                <p class="text-[10px] text-gray-400">Format ideal: JPG, PNG, atau WEBP. Maksimal ukuran file 2MB.</p>
+                <label class="font-bold text-gray-700 uppercase tracking-wide">Link Foto Dokumentasi (Opsional)</label>
+                <input type="url" name="foto" placeholder="Contoh: https://images.unsplash.com/photo-1580582932707-520aed937b7b" class="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#1A8DA3]">
+                <p class="text-[10px] text-gray-400">Salin "Image Address" dari Google atau Unsplash. Pastikan berakhiran format gambar (JPG, PNG, atau WEBP).</p>
             </div>
 
             <div class="pt-4 flex justify-end gap-3">
