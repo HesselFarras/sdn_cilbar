@@ -21,20 +21,17 @@ class SocialiteController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             
-            // 1. Cek apakah user sudah ada di database
+            // 1. Cek apakah user sudah terdaftar di database lo
             $user = User::where('email', $googleUser->email)->first();
 
+            // 2. Gembok Whitelist: Jika email TIDAK ditemukan di database, tolak aksesnya!
             if (!$user) {
-                // 2. Kalau BELUM ADA, otomatis daftarkan ke database
-                // Kita kasih password acak (Str::random) biar lolos dari constraint NOT NULL Supabase
-                $user = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'password' => bcrypt(Str::random(16)), 
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Akses ditolak! Email Anda belum terdaftar di sistem admin sekolah. Silakan hubungi Super Admin.'
                 ]);
             }
 
-            // 3. Langsung login-kan user (baik yang baru dibuat maupun yang sudah ada)
+            // 3. Jika email terdaftar, langsung login-kan ke dashboard admin
             Auth::login($user);
             
             return redirect()->intended(route('admin.dashboard'));
