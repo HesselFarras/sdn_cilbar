@@ -13,19 +13,37 @@
         .font-headline { font-family: 'Lexend', sans-serif; }
     </style>
 </head>
-<body class="bg-[#F8F9FA] text-slate-700 antialiased flex">
+<body class="bg-[#F8F9FA] text-slate-700 antialiased min-h-screen flex flex-col md:flex-row">
 
-    <!-- SIDEBAR KIRI -->
-    <aside class="w-64 min-h-screen bg-[#1A8DA2] text-white p-5 flex flex-col justify-between fixed left-0 top-0 bottom-0 z-50">
+    <header class="md:hidden bg-[#1A8DA2] text-white p-4 flex justify-between items-center sticky top-0 z-40 shadow-md">
+        <div>
+            <h2 class="font-headline font-bold text-sm leading-tight">SDN Ciledug Barat</h2>
+            <span class="text-[9px] text-[#FFF59D] font-semibold uppercase tracking-wider">Admin Panel</span>
+        </div>
+        <button id="menuToggle" class="p-2 rounded-lg hover:bg-white/10 active:bg-white/20 focus:outline-none transition-all">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </header>
+
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden transition-opacity duration-300"></div>
+
+    <aside id="sidebarAdmin" class="w-64 bg-[#1A8DA2] text-white p-5 flex flex-col justify-between fixed md:sticky left-0 top-0 bottom-0 h-screen z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-xl md:shadow-none">
         <div class="space-y-6">
-            <!-- Logo / Nama Sekolah -->
-            <div class="border-b border-white/20 pb-4">
-                <h2 class="font-headline font-bold text-lg leading-tight tracking-tight">SDN Ciledug Barat</h2>
-                <span class="text-[10px] text-[#FFF59D] font-semibold tracking-wider uppercase">Panel Kendali Admin</span>
+            <div class="border-b border-white/20 pb-4 flex justify-between items-center">
+                <div>
+                    <h2 class="font-headline font-bold text-lg leading-tight tracking-tight">SDN Ciledug Barat</h2>
+                    <span class="text-[10px] text-[#FFF59D] font-semibold tracking-wider uppercase">Panel Kendali Admin</span>
+                </div>
+                <button id="menuClose" class="md:hidden p-1.5 rounded-lg hover:bg-white/10 text-white/80 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
 
-            <!-- Menu Navigasi Admin -->
-            <nav class="space-y-1">
+            <nav class="space-y-1 overflow-y-auto max-h-[calc(100vh-160px)] pr-1">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-white/10 transition-all {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.kegiatan.create') ? 'bg-white/15 text-[#FFF59D]' : '' }}">
                     <span>📰</span> Kelola Kegiatan
                 </a>
@@ -53,7 +71,6 @@
             </nav>
         </div>
 
-        <!-- Bagian Bawah Sidebar -->
         <div class="border-t border-white/20 pt-4">
             <a href="/" class="flex items-center gap-3 px-4 py-2 text-xs font-semibold text-slate-200 hover:text-white transition-all">
                 <span>⬅</span> Kembali ke Web Utama
@@ -61,10 +78,25 @@
         </div>
     </aside>
 
-    <!-- KONTEN UTAMA (DISEBELAH KANAN SIDEBAR) -->
-    <main class="flex-1 min-h-screen ml-64 p-8 md:p-10">
+    <main class="flex-1 min-h-screen p-5 sm:p-8 md:p-10 w-full overflow-x-hidden">
         {{ $slot }}
     </main>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menuClose = document.getElementById('menuClose');
+        const sidebar = document.getElementById('sidebarAdmin');
+        const backdrop = document.getElementById('sidebarBackdrop');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        menuClose.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+    </script>
 
 </body>
 </html>

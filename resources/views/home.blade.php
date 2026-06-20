@@ -281,19 +281,20 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @php
+                // SEMUA KEY DIUBAH JADI HURUF KECIL BIAR COCOK SAMA DATABASE
                 $badgeColor = [
-                    'Penting'  => 'bg-red-100 text-red-700',
-                    'Akademik' => 'bg-yellow-100 text-yellow-700',
-                    'Acara'    => 'bg-[#e0f6fa] text-[#1A8DA3]',
-                    'Libur'    => 'bg-orange-100 text-orange-600',
-                    'PPDB'     => 'bg-green-100 text-green-700',
+                    'penting'  => 'bg-red-100 text-red-700',
+                    'akademik' => 'bg-[#FFF9C4] text-[#F57F17]', // Kuning soft estetik lo
+                    'acara'    => 'bg-[#e0f6fa] text-[#1A8DA3]',
+                    'libur'    => 'bg-orange-100 text-orange-600',
+                    'ppdb'     => 'bg-green-100 text-green-700',
                 ];
                 $badgeIcon = [
-                    'Penting'  => 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
-                    'Akademik' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-                    'Acara'    => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-                    'Libur'    => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-                    'PPDB'     => 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z',
+                    'penting'  => 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+                    'akademik' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                    'acara'    => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                    'libur'    => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                    'ppdb'     => 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z',
                 ];
                 $defaultColor = 'bg-gray-100 text-gray-600';
                 $defaultIcon  = 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9';
@@ -302,12 +303,13 @@
                 {{-- LOOPING DATA PENGUMUMAN DINAMIS --}}
                 @forelse($pengumumans ?? [] as $i => $item)
                 @php
-                    $cat   = $item->category ?? 'default';
+                    // BALIKIN KE PAKAI CATEGORY, TAPI DIPAKSA LOWERCASE BIAR SINKRON SAMA KEY ARRAY
+                    $cat   = strtolower($item->category ?? 'default');
                     $color = $badgeColor[$cat] ?? $defaultColor;
                     $icon  = $badgeIcon[$cat]  ?? $defaultIcon;
                     $isImportant = $item->is_important ?? false;
                 @endphp
-                <a href="{{ route('pengumuman.show', $item->slug)    }}" class="card-stagger group relative flex flex-col bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover-glow hover:-translate-y-1.5 hover:border-[#1A8DA3]/40 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <a href="{{ route('pengumuman.show', $item->slug) }}" class="card-stagger group relative flex flex-col bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover-glow hover:-translate-y-1.5 hover:border-[#1A8DA3]/40 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
                     @if($isImportant)
                     <span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
                     @endif
@@ -327,7 +329,8 @@
                         {{ $item->description }}
                     </p>
 
-                    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full w-fit {{ $color }}">
+                    <!-- TETEP MENGGUNAKAN CATEGORY, TAMBAH CLASS UPPERCASE BIAR HURUF BESAR -->
+                    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full w-fit capitalize {{ $color }}">
                         {{ $item->category }}
                     </span>
 

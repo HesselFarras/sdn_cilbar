@@ -125,9 +125,9 @@
         .icon-ppdb     { background:#e0f6fa; color:#1A8DA3; }
         .icon-default  { background:#f1f5f9; color:#64748b; }
 
-        /* Badge colors */
+        /* Badge colors (FIXED: Menyesuaikan style warna kuning halaman depan lo) */
         .badge-penting  { background:#fee2e2; color:#dc2626; }
-        .badge-akademik { background:#fef9c3; color:#92400e; }
+        .badge-akademik { background:#FFF9C4; color:#F57F17; }
         .badge-acara    { background:#cffafe; color:#0e7490; }
         .badge-libur    { background:#ffedd5; color:#c2410c; }
         .badge-ppdb     { background:#e0f6fa; color:#1A8DA3; }
@@ -153,7 +153,7 @@
             {{-- =====================================================
                  BREADCRUMB + PAGE HEADER
             ===================================================== --}}
-            <div data-aos="fade-up" data-aos-duration="600">
+            <div class="relative" data-aos="fade-up" data-aos-duration="600">
                 {{-- Breadcrumb --}}
                 <nav class="flex items-center gap-2 text-xs text-gray-400 mb-5">
                     <a href="{{ url('/') }}" class="breadcrumb-link hover:text-[#1A8DA3] transition-colors duration-200">
@@ -224,10 +224,11 @@
 
                         {{-- Determine category meta --}}
                         @php
+                            // FIX: Kita paksa string data category menjadi lowercase/huruf kecil semua agar klop dengan pemetaan CSS
                             $cat     = strtolower($notification->category ?? 'default');
                             $iconMap = [
                                 'penting'  => ['icon' => 'triangle-alert',   'wrap' => 'icon-penting',  'badge' => 'badge-penting'],
-                                'akademik' => ['icon' => 'file-text',         'wrap' => 'icon-akademik', 'badge' => 'badge-akademik'],
+                                'akademik' => ['icon' => 'file-text',        'wrap' => 'icon-akademik', 'badge' => 'badge-akademik'],
                                 'acara'    => ['icon' => 'calendar-days',     'wrap' => 'icon-acara',    'badge' => 'badge-acara'],
                                 'libur'    => ['icon' => 'calendar-off',      'wrap' => 'icon-libur',    'badge' => 'badge-libur'],
                                 'ppdb'     => ['icon' => 'user-plus',         'wrap' => 'icon-ppdb',     'badge' => 'badge-ppdb'],
@@ -261,7 +262,7 @@
                                 <div class="flex-1 min-w-0 pr-4">
                                     {{-- Badge + Date --}}
                                     <div class="flex flex-wrap items-center gap-2 mb-2">
-                                        <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full {{ $meta['badge'] }}">
+                                        <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize {{ $meta['badge'] }}">
                                             {{ $notification->category }}
                                         </span>
                                         <span class="text-xs text-gray-400">
