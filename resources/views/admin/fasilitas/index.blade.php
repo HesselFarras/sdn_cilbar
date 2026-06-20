@@ -33,8 +33,15 @@
                     @forelse($fasilitas as $f)
                         <tr class="hover:bg-gray-50/80">
                             <td class="p-4">
-                                <div class="w-12 h-10 rounded-lg overflow-hidden bg-gray-100 border">
-                                    <img src="{{ $f->foto ? asset('img/' . $f->foto) : 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=150' }}" class="w-full h-full object-cover">
+                                <div class="w-12 h-10 rounded-lg overflow-hidden bg-gray-100 border flex items-center justify-center">
+                                    {{-- FIX LOGIC: Deteksi URL Cloud Supabase secara dinamis --}}
+                                    @if(!empty($f->foto) && str_starts_with($f->foto, 'http'))
+                                        <img src="{{ $f->foto }}" class="w-full h-full object-cover" alt="Foto">
+                                    @elseif(!empty($f->foto) && file_exists(public_path('img/' . $f->foto)))
+                                        <img src="{{ asset('img/' . $f->foto) }}" class="w-full h-full object-cover" alt="Foto">
+                                    @else
+                                        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=150" class="w-full h-full object-cover" alt="Default">
+                                    @endif
                                 </div>
                             </td>
                             <td class="p-4 text-gray-900 font-bold">{{ $f->nama_fasilitas }}</td>
@@ -46,7 +53,7 @@
                                         Edit
                                     </a>
 
-                                    {{-- Tombol Hapus Lu yang Lama --}}
+                                    {{-- Tombol Hapus --}}
                                     <form action="{{ route('admin.fasilitas.destroy', $f->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus fasilitas ini, abangkuh?')">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="text-rose-600 hover:text-rose-900 font-bold text-[11px] cursor-pointer">Hapus</button>
@@ -56,7 +63,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="p-8 text-center text-gray-400 italic">Belum ada data fasilitas. Silakan klik tombol Tambah.</td>
+                            <td colspan="5" class="p-8 text-center text-gray-400 italic">Belum ada data fasilitas. Silakan klik tombol Tambah.</td>
                         </tr>
                     @endforelse
                 </tbody>
