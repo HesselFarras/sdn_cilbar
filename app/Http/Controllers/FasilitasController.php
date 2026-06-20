@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http; // <-- Diimport untuk hit API Supabase
+use Illuminate\Support\Facades\Http;
 
 class FasilitasController extends Controller
 {
@@ -34,14 +34,16 @@ class FasilitasController extends Controller
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $fileName = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
             
-            // Ambil Kredensial Supabase dari .env lo
+            // FIX: Menggunakan penamaan unik timestamp + string acak sederhana agar aman tanpa import Str::slug
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Ambil Kredensial Supabase dari .env
             $supabaseUrl = env('SUPABASE_URL');
-            $supabaseKey = env('SUPABASE_KEY'); // Pake Service Role Key / Anon Key yang punya akses storage
-            $bucketName  = 'fasilitas'; // <-- Pastikan lo udah buat Bucket bernama 'fasilitas' di Supabase Storage
+            $supabaseKey = env('SUPABASE_KEY'); 
+            $bucketName  = 'fasilitas'; // <-- Pastikan nama bucket di storage Supabase lo adalah 'fasilitas'
 
-            // Upload langsung file binari ke Supabase Storage via API
+            // Upload file biner langsung ke Supabase Storage via API
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $supabaseKey,
                 'Content-Type'  => $file->getMimeType(),
@@ -49,10 +51,10 @@ class FasilitasController extends Controller
               ->post($supabaseUrl . '/storage/v1/object/' . $bucketName . '/' . $fileName);
 
             if ($response->successful()) {
-                // Ambil URL Publik dari Supabase Storage untuk disimpan ke DB
+                // Ambil URL Publik dari Supabase Storage untuk masuk ke DB
                 $data['foto'] = $supabaseUrl . '/storage/v1/object/public/' . $bucketName . '/' . $fileName;
             } else {
-                return redirect()->back()->withInput()->withErrors(['foto' => 'Gagal mengupload foto ke cloud storage.']);
+                return redirect()->back()->withInput()->withErrors(['foto' => 'Gagal mengupload foto ke cloud storage Supabase.']);
             }
         }
 
@@ -85,7 +87,7 @@ class FasilitasController extends Controller
             $supabaseKey = env('SUPABASE_KEY');
             $bucketName  = 'fasilitas';
 
-            // Hapus foto lama dari Supabase Storage jika sebelumnya berupa URL Supabase
+            // Hapus foto lama dari Supabase Storage jika sebelumnya ada
             if ($fasilitas->foto && str_contains($fasilitas->foto, $supabaseUrl)) {
                 $oldFileName = basename($fasilitas->foto);
                 Http::withHeaders([
@@ -95,7 +97,7 @@ class FasilitasController extends Controller
 
             // Upload foto baru
             $file = $request->file('foto');
-            $fileName = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $supabaseKey,
@@ -122,7 +124,7 @@ class FasilitasController extends Controller
         $supabaseKey = env('SUPABASE_KEY');
         $bucketName  = 'fasilitas';
 
-        // Hapus file dari Supabase Storage
+        // Hapus file dari Supabase Storage saat data dihapus
         if ($fasilitas->foto && str_contains($fasilitas->foto, $supabaseUrl)) {
             $oldFileName = basename($fasilitas->foto);
             Http::withHeaders([
